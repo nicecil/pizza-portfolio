@@ -19,12 +19,17 @@ export default {
   props: {}
 };
 </script>
+
 <style scoped lang="scss">
 .content {
   .first-content {
     display: flex;
     align-items: center;
     justify-content: center;
+    height: calc(100vh - 60px);
+    /*background-color: rgba(#525861, 0.8);*/
+    background-color: red;
+    /*border: 1px solid red;*/
 
     .icon-test {
       width: 100px;
@@ -36,8 +41,14 @@ export default {
   }
 
   .second-content {
+    display: flex;
+    height: calc(100vh - 60px);
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    border: 2px solid black;
     font-weight: 100;
-    font-size: 1em;
+    font-size: 4em;
   }
 }
 </style>
