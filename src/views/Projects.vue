@@ -2,47 +2,53 @@
   <div class="about">
     <v-navigation-drawer color="red" permanent>
       <v-list dense nav class="py-0">
-        <v-list-item two-line>
-          <v-icon>sports_esports</v-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>Projects</v-list-item-title>
-          </v-list-item-content>
+        <v-list-item three-line class="ml-9">
+          <v-icon size="40" class="mr-2">mdi-gamepad-variant</v-icon>
+          <div class="text-h6">Projects</div>
         </v-list-item>
-
-        <v-divider></v-divider>
-
-        <v-list-item v-for="item in items" :key="item.title" link>
-          <v-img
-            src="../assets/game_logos/czero-icon.png"
-            width="10"
-            class="mr-3"
-          ></v-img>
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item>
-          <v-img src="../assets/game_logos/iconezin.png" width="10"></v-img>
-          <v-list-item-content>
-            <v-list-item-title>teteitjeiuj</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+        <v-list-item-group v-model="selectedProject">
+          <v-list-item v-for="item in items" :key="item.title" link>
+            <v-img
+              src="../assets/game_logos/czero-icon.png"
+              width="10"
+              class="mr-3"
+            ></v-img>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <v-carousel >
-      <v-carousel-item
-        v-for="item in carrousel_items"
-        :key="item.id"
-        v-html="item.content"
+
+    <v-container class="content">
+      <div class="text-h3 text-center">{{ project.title }}</div>
+      <v-carousel
+        show-arrows-on-hover
+        class="carousel"
+        delimiter-icon="mdi-minus"
+        :height="project.imgWidth / project.imgAR"
+        :style="`width:${this.project.imgWidth}px`"
       >
-      </v-carousel-item>
-    </v-carousel>
+        <v-carousel-item
+          v-for="(item, index) in project.carouselContent"
+          :key="index"
+        >
+          <v-img
+            :src="item.content"
+            contain
+            :width="project.imgWidth"
+            :height="project.imgWidth / project.imgAR"
+            class="carousel-content"
+          ></v-img>
+        </v-carousel-item>
+      </v-carousel>
+    </v-container>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import projectInfo from "@/assets/projectsInfo";
 
 export default {
   name: "Projects",
@@ -50,34 +56,13 @@ export default {
   data() {
     return {
       drawer: true,
-      items: [
-        {
-          title: "Carnival Zero",
-          img: "../assets/game_logos/czero-icon.png"
-        },
-        { title: "Spotlight", icon: "mdi-image" },
-        { title: "Canyon Fly-By", icon: "mdi-help-box" }
-      ],
-      carrousel_items: [
-        {
-          id: 1,
-          content:
-            '<iframe width="560" height="315" src="https://www.youtube.com/embed/_q0OMXbSFG8" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-        },
-        {
-          id: 2,
-          content:
-            '<iframe width="760" height="315" src="https://www.youtube.com/embed/lHT5MRky9SA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
-        },
-        { id: 3, content: '<img src="../assets/game_logos/czero-icon.png"/>' }
-      ]
+      selectedProject: 0,
+      items: projectInfo
     };
   },
   computed: {
-    bg() {
-      return this.background
-        ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-2.jpg"
-        : undefined;
+    project() {
+      return projectInfo[this.selectedProject];
     }
   }
 };
@@ -85,12 +70,17 @@ export default {
 
 <style scoped lang="scss">
 .about {
-  width: 100%;
-  height: 90vh;
-  font-size: 4em;
-}
-.thumbnail {
-  /*width: 80px;*/
-  /*height: 60px;*/
+  height: 100%;
+  display: flex;
+
+  .content {
+    position: center;
+
+    .carousel {
+      .carousel-content {
+        margin: 0 auto 0 auto;
+      }
+    }
+  }
 }
 </style>
